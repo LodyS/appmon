@@ -53,8 +53,6 @@ exports.update = async(request, response)=>{
     } else {
         response.status(500).send({ message : "Gagal update permintaan APPMON"});
     } 
-
-    //console.log(request);
 }
 
 exports.doneTask = async(request, response)=>{

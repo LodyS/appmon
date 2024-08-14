@@ -24,5 +24,6 @@ db.Sequelize = Sequelize;
 
 db.user = require("../models/users.js")(sequelize, Sequelize);
 db.requestUser = require("../models/requestUser.js")(sequelize, Sequelize);
+db.tokenBlacklist = require("../models/tokenBlacklist.js")(sequelize, Sequelize);
 
 module.exports = db;

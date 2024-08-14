@@ -3,6 +3,7 @@ const User = db.user;
 const config = require("../config/authConfig");
 var jwt = require('jsonwebtoken');
 var brcypt = require('bcryptjs');
+const tokenBlacklist = db.tokenBlacklist;
 
 exports.register = async(request, response)=>{
     const store = User.create({
@@ -48,4 +49,28 @@ exports.login = async(request, response)=>{
             accessToken : token
         });
     }
+}
+
+exports.logout = async(request, response)=>{
+    let token = request.headers['x-access-token'];
+    
+    if(!token){
+        return response.status(403).send({ message : 'Tidak ada token yang valid'});
+    }
+
+    let cek_token = tokenBlacklist.findOne({
+        where : {
+            token : token
+        }
+    })
+
+    if(cek_token){
+        return response.status(400).send({ message : 'Token tidak valid'});
+    }
+
+    await tokenBlacklist.create({
+        token : token
+    })
+
+    return response.status(200).send({ message : "Berhasil logout" });
 }

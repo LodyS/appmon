@@ -15,4 +15,5 @@ module.exports = function(app){
 
     app.post('/api/register', [registerValidator.cekEmailUsername, parameterRequest(), validate, AuthController.register]);
     app.post('/api/login', AuthController.login);
+    app.post('/api/logout', AuthController.logout);
 }
