@@ -1,6 +1,6 @@
 const db = require("../models");
 const User = db.user;
-
+const config = require("../config/authConfig");
 var jwt = require('jsonwebtoken');
 var brcypt = require('bcryptjs');
 
@@ -17,4 +17,35 @@ exports.register = async(request, response)=>{
     } else {
         return response.status(500).send({ message : "Gagal simpan user"});
     } 
+}
+
+exports.login = async(request, response)=>{
+    const cek = await User.findOne({
+        where : {
+            username : request.body.username
+        }
+    })
+
+    if(!cek){
+        return response.status(404).send({ message : "User tidak ada"});
+    }
+
+    var kredenesialValid = brcypt.compareSync(request.body.password, cek.password);
+
+    if(!kredenesialValid){
+        return response.status(403).send({ message : "User tidak valid"});
+    } else {
+        const token = jwt.sign({id:cek}, config.secret,{
+            algorithm: 'HS256',
+            allowInsecureKeySizes:true,
+            expiresIn:86400,
+        });
+    
+        response.status(200).send({
+            id : cek.id,
+            username : cek.username,
+            email : cek.email,
+            accessToken : token
+        });
+    }
 }
