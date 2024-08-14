@@ -1,3 +1,4 @@
+const { authJwt } = require("../middleware");
 const db = require("../models");
 const RequestUser = db.requestUser;
 const sequelize = require("sequelize");
@@ -39,7 +40,7 @@ exports.update = async(request, response)=>{
         status : request.body.status,
         end : request.body.end,
         notes : request.body.notes,
-        pic : request.body.pic,
+        pic : request.userId,
         start : sequelize.literal("CURRENT_TIMESTAMP"),
     },{
         where : {
@@ -51,7 +52,9 @@ exports.update = async(request, response)=>{
         response.status(201).send({ message : 'Berhasil update permintaan APPMON'});
     } else {
         response.status(500).send({ message : "Gagal update permintaan APPMON"});
-    }
+    } 
+
+    //console.log(request);
 }
 
 exports.doneTask = async(request, response)=>{

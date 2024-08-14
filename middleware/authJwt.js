@@ -8,18 +8,21 @@ verifyToken = (request, response, next)=>{
         return response.status(403).send({ message : "No token provided" });
     }
 
-    jwt.verify(token, config.secret, (err, decode)=>{
+    jwt.verify(token, config.secret, (err, decoded)=>{
         if(err){
             return response.status(401).send({ message: "Unauthorized"});
         }
 
-        request.userId = decode.index;
+        request.userId = decoded.id.id;
+        request.email = decoded.id.email;
+        request.username = decoded.id.username;
+        //console.log(request.userId);
         next();
     })
 }
 
 const authJwt = {
-    jwt:jwt
+    verifyToken:verifyToken
 }
 
 module.exports = authJwt;

@@ -1,5 +1,7 @@
 const registerValidator = require("./registerValidator");
+const authJwt = require("./authJwt");
 
 module.exports = {
-    registerValidator
+    registerValidator,
+    authJwt
 }
