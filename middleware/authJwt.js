@@ -7,7 +7,7 @@ verifyToken = (request, response, next)=>{
     let token = request.headers['x-access-token'];
 
     if(!token){
-        return response.status(403).send({ message : "Token tidak valid" });
+        return response.status(403).send({ message : "Token tidak valid coy" });
     }
 
     jwt.verify(token, config.secret, async(err, decoded)=>{
