@@ -16,7 +16,6 @@ verifyToken = (request, response, next)=>{
         request.userId = decoded.id.id;
         request.email = decoded.id.email;
         request.username = decoded.id.username;
-        //console.log(request.userId);
         next();
     })
 }
