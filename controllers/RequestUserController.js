@@ -9,6 +9,16 @@ exports.index = async(request, response)=>{
     response.status(200).send({ message : "Daftar permintaan APPMON", data : data});
 }
 
+exports.search = async(request, response)=>{
+    const data = await RequestUser.findAll({
+        where : {
+            type : request.body.type
+        }
+    });
+
+    return response.status(200).send({ message : 'Daftar permintaan APPMON', data : data});
+}
+
 exports.show = async(request, response)=>{
     const data = await RequestUser.findAll({ 
         where : {

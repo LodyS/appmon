@@ -8,4 +8,5 @@ module.exports = (app)=>{
     app.post('/api/request-user', [parameterRequest(), validate], RequestUserController.store);
     app.put('/api/request-user/:id', [authJwt.verifyToken], RequestUserController.update);
     app.put('/api/done-task/:id', [authJwt.verifyToken, RequestUserController.doneTask]);
+    app.post('/api/request-user-filter', RequestUserController.search);
 }
