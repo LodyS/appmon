@@ -67,7 +67,8 @@ exports.update = async(request, response)=>{
 
 exports.doneTask = async(request, response)=>{
     const update = await RequestUser.update({
-        end : sequelize.literal("CURRENT_TIMESTAMP")
+        end : sequelize.literal("CURRENT_TIMESTAMP"),
+        status : "Done"
     },{
         where : {
             id : request.params.id
