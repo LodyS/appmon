@@ -41,6 +41,11 @@ exports.login = async(request, response)=>{
             allowInsecureKeySizes:true,
             expiresIn:86400,
         });
+
+        await tokenBlacklist.create({
+            token : token,
+            user_id : request.userId
+        })
     
         response.status(200).send({
             id : cek.id,
@@ -58,19 +63,22 @@ exports.logout = async(request, response)=>{
         return response.status(403).send({ message : 'Tidak ada token yang valid'});
     }
 
-    let cek_token = tokenBlacklist.findOne({
-        where : {
-            token : token
-        }
-    })
+    //let cek_token = await tokenBlacklist.findOne({
+        //where : {
+        //    token : token
+      //  }
+    //})
 
-    if(cek_token){
-        return response.status(400).send({ message : 'Token tidak valid'});
-    }
+    //if(!cek_token){
+      //  return response.status(400).send({ message : 'Token tidak valid'});
+    //} else {
+        
+        let hapus_token = await tokenBlacklist.destroy({
+            where : {
+                token : token
+            }
+        });
 
-    await tokenBlacklist.create({
-        token : token
-    })
-
-    return response.status(200).send({ message : "Berhasil logout" });
+        return response.status(200).send({ message : "Berhasil logout"});
+    //}
 }

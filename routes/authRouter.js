@@ -1,7 +1,6 @@
-const { registerValidator } = require("../middleware")
+const { registerValidator, authJwt } = require("../middleware")
 const AuthController = require("../controllers/AuthController.js");
 const { validate, parameterRequest } = require("../validator/AuthValidator.js");
-
 
 module.exports = function(app){
     app.use(function(request, response, next){
@@ -15,5 +14,5 @@ module.exports = function(app){
 
     app.post('/api/register', [registerValidator.cekEmailUsername, parameterRequest(), validate, AuthController.register]);
     app.post('/api/login', AuthController.login);
-    app.post('/api/logout', AuthController.logout);
+    app.post('/api/logout', [authJwt.verifyToken, AuthController.logout]);
 }

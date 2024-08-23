@@ -21,8 +21,8 @@ verifyToken = (request, response, next)=>{
             }
         })
 
-        if(isBlackListToken){
-            return response.status(401).send({ message : "Token telah di blacklist"});
+        if(!isBlackListToken){
+            return response.status(401).send({ message : "Token sudah tidak berlaku"});
         }
 
         request.userId = decoded.id.id;
@@ -33,7 +33,7 @@ verifyToken = (request, response, next)=>{
 }
 
 const authJwt = {
-    verifyToken:verifyToken
+    verifyToken:verifyToken,
 }
 
 module.exports = authJwt;
